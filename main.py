@@ -1,5 +1,5 @@
 import pygame
-import sys
+import sys  
 import random
 from Game import Game
 from button import Button
@@ -7,11 +7,8 @@ from meowchi import Meowchi
 from enemy import TikusDapur, TikusPutih 
 
 pygame.init()
-info = pygame.display.Info()
-WIDTH, HEIGHT = info.current_w, info.current_h
-WHITE = (255, 255, 255)
-FPS = 60
-
+infoObject = pygame.display.Info()
+WIDTH, HEIGHT = infoObject.current_w, infoObject.current_h 
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("MeoWar")
 clock = pygame.time.Clock()
@@ -19,7 +16,7 @@ clock = pygame.time.Clock()
 title_font = pygame.font.SysFont("comicsansms", 72)
 button_font = pygame.font.SysFont("comicsansms", 36)
 
-menu_bg1 = pygame.image.load("Assets/Background/BG Level 1.png")
+menu_bg1 = pygame.image.load("Assets/Background/background1.png")
 menu_bg2 = pygame.image.load("Assets/Background/background2.png")
 menu_bg1 = pygame.transform.scale(menu_bg1, (WIDTH, HEIGHT))
 menu_bg2 = pygame.transform.scale(menu_bg2, (WIDTH, HEIGHT))
@@ -34,16 +31,16 @@ class MainMenu:
         self.bg_images = [menu_bg1, menu_bg2]
         self.current_bg_index = 0
         self.bg_x = 0
-        self.scroll_speed = 1
+        self.scroll_speed = 1 
 
     def start_game(self):
-        game = GameManager(1)
+        game = Game(1) #level 1
         game.run()
         self.running = True
 
     def quit_game(self):
         pygame.quit()
-        sys.exit()
+        sys.exit() #ketika game keluar
 
     def scroll_background(self):
         self.bg_x -= self.scroll_speed
@@ -74,11 +71,11 @@ class MainMenu:
             pygame.display.flip()
             clock.tick(60)
 
-class GameManager: #noteeedd
+class Game:
     def __init__(self, level=1):
         self.level = level
         self.score = 0
-        self.bg_image = pygame.image.load("Assets/Background/BG Level 1.png")
+        self.bg_image = pygame.image.load("Assets/Background/background1.png")
         self.bg_image = pygame.transform.scale(self.bg_image, (WIDTH, HEIGHT))
         self.bg_x = 0
         self.bg_speed = 3
@@ -87,9 +84,9 @@ class GameManager: #noteeedd
         if self.level == 1:
             self.tikus_list = [TikusDapur(WIDTH, HEIGHT) for _ in range(3)] + [TikusPutih(WIDTH, HEIGHT) for _ in range(2)]
         #elif self.level == 2:
-        #    self.tikus_list = [Anjing(WIDTH, HEIGHT) for _ in range(3)]
+            #self.tikus_list = [Anjing(WIDTH, HEIGHT) for _ in range(3)]
         #elif self.level == 3:
-        #    self.tikus_list = [Boss(WIDTH, HEIGHT)]
+            #self.tikus_list = [Boss(WIDTH, HEIGHT)]
 
         self.running = True
         self.next_button = Button("NEXT", WIDTH - 150, HEIGHT - 100, 120, 50, self.next_level)
@@ -138,9 +135,9 @@ class GameManager: #noteeedd
                     if self.level == 1:
                         self.tikus_list.append(random.choice([TikusDapur, TikusPutih])(WIDTH, HEIGHT))
                     #elif self.level == 2:
-                    #    self.tikus_list.append(Anjing(WIDTH, HEIGHT))
+                        #self.tikus_list.append(Anjing(WIDTH, HEIGHT))
                     #elif self.level == 3:
-                    #    self.tikus_list.append(Boss(WIDTH, HEIGHT))
+                        #self.tikus_list.append(Boss(WIDTH, HEIGHT))
 
                 self.bg_x -= self.bg_speed
                 if self.bg_x <= -WIDTH:
