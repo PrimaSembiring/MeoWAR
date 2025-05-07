@@ -1,0 +1,52 @@
+import pygame
+import sys
+
+pygame.init()
+pygame.mouse.set_visible(False)  # Menyembunyikan kursor mouse
+
+# Ambil ukuran layar monitor pengguna
+info = pygame.display.Info()
+SCREEN_WIDTH, SCREEN_HEIGHT = info.current_w, info.current_h
+
+# Buat layar fullscreen
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
+pygame.display.set_caption("Meowchi Shoots Tomato")
+
+clock = pygame.time.Clock()
+FPS = 60
+
+# Muat gambar background dan skalakan agar pas dengan layar
+try:
+    bg_image = pygame.image.load("Assets/IMG_6396.PNG")
+    bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+except pygame.error as e:
+    print("Gagal memuat background:", e)
+    pygame.quit()
+    sys.exit()
+
+# Variabel untuk menggerakkan background ke kiri (looping)
+bg_x = 0
+bg_speed = 3
+
+# Game loop
+running = True
+while running:
+    clock.tick(FPS)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+            running = False
+
+    # Perbarui posisi background
+    bg_x -= bg_speed
+    if bg_x <= -SCREEN_WIDTH:
+        bg_x = 0
+
+    # Gambar dua background agar terlihat seperti looping
+    screen.blit(bg_image, (bg_x, 0))
+    screen.blit(bg_image, (bg_x + SCREEN_WIDTH, 0))
+
+    pygame.display.update()
+
+pygame.quit()
+sys.exit()
